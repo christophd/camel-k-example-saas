@@ -2,6 +2,12 @@ config:
   namespace:
     temporary: false
   runtime:
+    settings:
+      loggers:
+        - name: INTEGRATION_STATUS
+          level: INFO
+        - name: INTEGRATION_LOGS
+          level: INFO
     env:
       - name: YAKS_CAMELK_AUTO_REMOVE_RESOURCES
         value: false
@@ -22,7 +28,7 @@ pre:
     run: kamel run ../SalesforceToServiceNow.java
 post:
   - name: print dump
-    if: env:CI=true && failure()
+    if: env:CI=true
     run: kamel dump
   - name: Delete secrets
     if: env:CI=true
